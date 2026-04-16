@@ -1,7 +1,10 @@
 package com.example.aplikasikasir.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Category(
     @SerializedName("id")
     val id: Int,
@@ -11,8 +14,9 @@ data class Category(
     val slug: String,
     @SerializedName("barangs_count")
     val barangsCount: Int? = null
-)
+) : Parcelable
 
+@Parcelize
 data class Barang(
     @SerializedName("id")
     val id: Int,
@@ -34,11 +38,13 @@ data class Barang(
     val categoryId: Int,
     @SerializedName("foto")
     val foto: String?,
+    @SerializedName("foto_url")
+    val fotoUrl: String?,
     @SerializedName("is_active")
     val isActive: Boolean,
     @SerializedName("category")
     val category: Category? = null
-)
+) : Parcelable
 
 data class ApiResponse<T>(
     @SerializedName("success")

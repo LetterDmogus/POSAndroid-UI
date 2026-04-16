@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.aplikasikasir.databinding.ActivityMainBinding
+import com.example.aplikasikasir.ui.CatalogFragment
+import com.example.aplikasikasir.ui.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,23 +18,41 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ambil data sesi
-        val sharedPref = getSharedPreferences("pos_pref", Context.MODE_PRIVATE)
-        val name = sharedPref.getString("user_name", "User")
-        val role = sharedPref.getString("user_role", "Kasir")
+        // Set fragment default
+        loadFragment(HomeFragment())
 
-        // Tampilkan Welcome Message
-        binding.tvWelcome.text = "Selamat Datang, $name!"
-        binding.tvRole.text = "Anda login sebagai ${role?.replaceFirstChar { it.uppercase() }}"
-
-        // Fungsi Logout
-        binding.btnLogout.setOnClickListener {
-            val editor = sharedPref.edit()
-            editor.clear()
-            editor.apply()
-
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    loadFragment(HomeFragment())
+                    true
+                }
+                R.id.nav_catalog -> {
+                    loadFragment(CatalogFragment())
+                    true
+                }
+                R.id.nav_profile -> {
+                    // Sementara profile isinya tombol logout di Home, 
+                    // tapi kita bisa tambahkan fragment khusus nanti.
+                    loadFragment(HomeFragment())
+                    true
+                }
+                else -> false
+            }
         }
+    }
+
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    // Fungsi Logout (Bisa dipanggil dari Fragment manapun lewat activity)
+    fun performLogout() {
+        val sharedPref = getSharedPreferences("pos_pref", Context.MODE_PRIVATE)
+        sharedPref.edit().clear().apply()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 }

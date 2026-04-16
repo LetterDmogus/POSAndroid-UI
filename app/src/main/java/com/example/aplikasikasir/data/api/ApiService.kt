@@ -28,10 +28,15 @@ interface ApiService {
     @GET("categories")
     fun getCategories(@Header("Authorization") token: String): Call<ApiResponse<List<Category>>>
 
-    // Kamu bisa tambahkan untuk POST Order juga di sini
     @POST("orders")
     fun createOrder(
         @Header("Authorization") token: String,
-        @Body body: Map<String, Any>
-    ): Call<ApiResponse<Any>>
+        @Body body: OrderRequest
+    ): Call<OrderResponse>
+
+    @GET("invoice/{nomor_invoice}")
+    fun getInvoice(
+        @Header("Authorization") token: String,
+        @Path("nomor_invoice") nomorInvoice: String
+    ): Call<InvoiceResponse>
 }
