@@ -12,6 +12,9 @@ interface ApiService {
     @POST("logout")
     fun logout(@Header("Authorization") token: String): Call<ApiResponse<Unit>>
 
+    @GET("dashboard")
+    fun getDashboard(@Header("Authorization") token: String): Call<DashboardResponse>
+
     @GET("barangs")
     fun getBarangs(
         @Header("Authorization") token: String,

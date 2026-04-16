@@ -57,6 +57,9 @@ dependencies {
     
     // QR Scanner
     implementation(libs.zxing.android.embedded)
+    
+    // Charts
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
