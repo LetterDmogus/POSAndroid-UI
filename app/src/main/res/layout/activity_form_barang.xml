@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F7F9">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:id="@+id/headerFormBarang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pos_blue_dark"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBackFormBarang"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tvFormTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Tambah Barang"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btnSaveBarang"
+        app:layout_constraintTop_toBottomOf="@id/headerFormBarang">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Pilih Foto -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnSelectImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground">
+                <ImageView
+                    android:id="@+id/ivFormFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:padding="30dp"
+                    app:tint="@color/text_secondary" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SKU" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+            <EditText android:id="@+id/etFormSku" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:paddingHorizontal="16dp" android:hint="BRG-001"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="NAMA BARANG" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+            <EditText android:id="@+id/etFormNama" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:paddingHorizontal="16dp"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="KATEGORI" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+            <Spinner android:id="@+id/spFormCategory" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginEnd="8dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="STOK" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+                    <EditText android:id="@+id/etFormStok" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:paddingHorizontal="16dp" android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SATUAN" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+                    <EditText android:id="@+id/etFormSatuan" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:paddingHorizontal="16dp" android:text="pcs"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="HARGA BELI (MODAL)" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+            <EditText android:id="@+id/etFormHargaBeli" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:paddingHorizontal="16dp" android:inputType="number"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="HARGA JUAL" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+            <EditText android:id="@+id/etFormHargaJual" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:paddingHorizontal="16dp" android:inputType="number"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="DESKRIPSI" android:textSize="11sp" android:textStyle="bold" android:textColor="@color/text_secondary"/>
+            <EditText android:id="@+id/etFormDeskripsi" android:layout_width="match_parent" android:layout_height="100dp" android:layout_marginTop="4dp" android:background="@drawable/rounded_field" android:padding="16dp" android:gravity="top"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSaveBarang"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/pos_blue_dark"
+        android:text="SIMPAN BARANG"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

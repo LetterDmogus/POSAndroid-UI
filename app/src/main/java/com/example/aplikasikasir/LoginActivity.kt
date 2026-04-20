@@ -23,6 +23,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inisialisasi Picasso dengan Host Interceptor
+        RetrofitClient.initPicasso(this)
+
         val sharedPref = getSharedPreferences("pos_pref", Context.MODE_PRIVATE)
         if (sharedPref.getString("token", null) != null) {
             startActivity(Intent(this, MainActivity::class.java))
@@ -53,9 +56,9 @@ class LoginActivity : AppCompatActivity() {
                                 val editor = sharedPref.edit()
                                 editor.putString("token", body.token)
                                 editor.putString("user_name", body.user?.name)
+                                editor.putString("user_email", body.user?.email)
                                 editor.putString("user_role", body.user?.role)
                                 editor.apply()
-
                                 Log.d(TAG, "Login Berhasil. Token: ${body.token}")
                                 Toast.makeText(this@LoginActivity, "Login Berhasil!", Toast.LENGTH_SHORT).show()
                                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))

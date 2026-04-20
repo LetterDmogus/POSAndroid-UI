@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.aplikasikasir.MainActivity
 import com.example.aplikasikasir.data.api.RetrofitClient
 import com.example.aplikasikasir.data.model.DashboardResponse
 import com.example.aplikasikasir.databinding.FragmentHomeBinding
@@ -48,10 +47,6 @@ class HomeFragment : Fragment() {
 
         binding.tvWelcome.text = "Selamat Datang, $name!"
         binding.tvRole.text = "Anda login sebagai ${role?.replaceFirstChar { it.uppercase() }}"
-
-        binding.btnLogout.setOnClickListener {
-            (activity as? MainActivity)?.performLogout()
-        }
 
         fetchDashboardData()
     }
@@ -120,7 +115,6 @@ class HomeFragment : Fragment() {
         xAxis.granularity = 1f
         xAxis.setDrawGridLines(false)
         
-        // Perbaikan: Menggunakan ValueFormatter standar (lebih aman daripada IndexValueFormatter)
         xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 val index = value.toInt()

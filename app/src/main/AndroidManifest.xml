@@ -55,6 +55,21 @@
             android:exported="false"
             android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
 
+        <activity
+            android:name=".ManageCategoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".ManageBarangActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".FormBarangActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
     </application>
 
 </manifest>

@@ -6,8 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.aplikasikasir.databinding.ActivityMainBinding
-import com.example.aplikasikasir.ui.CatalogFragment
-import com.example.aplikasikasir.ui.HomeFragment
+import com.example.aplikasikasir.ui.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +16,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val sharedPref = getSharedPreferences("pos_pref", Context.MODE_PRIVATE)
+        val role = sharedPref.getString("user_role", "kasir")
+
+        // Sembunyikan menu Master jika bukan admin
+        val menuMaster = binding.bottomNavigation.menu.findItem(R.id.nav_master)
+        menuMaster.isVisible = (role == "admin")
 
         // Set fragment default
         loadFragment(HomeFragment())
@@ -31,10 +37,17 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(CatalogFragment())
                     true
                 }
+                R.id.nav_master -> {
+                    // SEKARANG MEMANGGIL FRAGMENT (Navbar tidak akan hilang)
+                    loadFragment(MasterDataFragment())
+                    true
+                }
+                R.id.nav_orders -> {
+                    loadFragment(OrdersFragment())
+                    true
+                }
                 R.id.nav_profile -> {
-                    // Sementara profile isinya tombol logout di Home, 
-                    // tapi kita bisa tambahkan fragment khusus nanti.
-                    loadFragment(HomeFragment())
+                    loadFragment(ProfileFragment())
                     true
                 }
                 else -> false
@@ -48,7 +61,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    // Fungsi Logout (Bisa dipanggil dari Fragment manapun lewat activity)
     fun performLogout() {
         val sharedPref = getSharedPreferences("pos_pref", Context.MODE_PRIVATE)
         sharedPref.edit().clear().apply()
