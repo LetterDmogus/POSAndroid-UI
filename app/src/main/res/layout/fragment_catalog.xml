@@ -50,6 +50,19 @@
             app:spanCount="2" />
     </LinearLayout>
 
+    <!-- Floating Scan Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScanQr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="100dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:backgroundTint="@color/pos_blue_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
+
     <!-- Floating Cart Info -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardCartInfo"
@@ -73,7 +86,7 @@
                 android:id="@+id/tvCartCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 Item"
+                android:text="0 Item"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -88,7 +101,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rp 35.000"
+                android:text="Rp 0"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 

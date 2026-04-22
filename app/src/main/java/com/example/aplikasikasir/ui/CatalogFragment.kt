@@ -17,6 +17,7 @@ import com.example.aplikasikasir.data.api.RetrofitClient
 import com.example.aplikasikasir.data.model.ApiResponse
 import com.example.aplikasikasir.data.model.Barang
 import com.example.aplikasikasir.databinding.FragmentCatalogBinding
+import com.google.zxing.integration.android.IntentIntegrator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,11 +46,64 @@ class CatalogFragment : Fragment() {
         token = "Bearer ${sharedPref.getString("token", "")}"
 
         setupRecyclerView()
+        fetchCatalog()
         setupSearch()
+        updateCartUI()
 
         binding.cardCartInfo.setOnClickListener {
             startActivity(Intent(requireContext(), CartActivity::class.java))
         }
+
+        // Tombol Scan QR
+        binding.fabScanQr.setOnClickListener {
+            startQrScanner()
+        }
+    }
+
+    private fun startQrScanner() {
+        val integrator = IntentIntegrator.forSupportFragment(this)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+        integrator.setPrompt("Scan QR Code Barang")
+        integrator.setBeepEnabled(true)
+        integrator.setOrientationLocked(false)
+        integrator.initiateScan()
+    }
+
+    // Menangani hasil scan
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(requireContext(), "Scan dibatalkan", Toast.LENGTH_SHORT).show()
+            } else {
+                val sku = result.contents
+                fetchBarangBySku(sku)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun fetchBarangBySku(sku: String) {
+        Toast.makeText(requireContext(), "Mencari SKU: $sku", Toast.LENGTH_SHORT).show()
+        
+        RetrofitClient.instance.scanBarang(token, sku).enqueue(object : Callback<ApiResponse<Barang>> {
+            override fun onResponse(call: Call<ApiResponse<Barang>>, response: Response<ApiResponse<Barang>>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    val barang = response.body()!!.data
+                    if (barang != null) {
+                        CartManager.addItem(barang)
+                        updateCartUI()
+                        Toast.makeText(requireContext(), "${barang.namaBarang} ditambahkan!", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Produk tidak ditemukan", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<ApiResponse<Barang>>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -63,11 +117,13 @@ class CatalogFragment : Fragment() {
     }
 
     private fun updateCartUI() {
+        if (!isAdded) return
         val count = CartManager.getItemCount()
         if (count > 0) {
             binding.cardCartInfo.visibility = View.VISIBLE
             binding.tvCartCount.text = "$count Item"
-            val formatRupiah = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
+            val localeID = Locale("in", "ID")
+            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
             binding.tvCartTotal.text = formatRupiah.format(CartManager.getTotalPrice())
         } else {
             binding.cardCartInfo.visibility = View.GONE
@@ -98,8 +154,6 @@ class CatalogFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Setiap kali fragment aktif, ambil data terbaru dan update keranjang
-        fetchCatalog(binding.etSearch.text.toString())
         updateCartUI()
     }
 

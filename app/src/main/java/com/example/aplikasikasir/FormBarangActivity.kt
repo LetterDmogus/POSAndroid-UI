@@ -16,11 +16,9 @@ import com.example.aplikasikasir.data.model.Barang
 import com.example.aplikasikasir.data.model.Category
 import com.example.aplikasikasir.databinding.ActivityFormBarangBinding
 import com.squareup.picasso.Picasso
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -99,7 +97,6 @@ class FormBarangActivity : AppCompatActivity() {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.spFormCategory.adapter = adapter
                     
-                    // Set selection jika edit
                     val currentBarang = intent.getParcelableExtra<Barang>("EXTRA_BARANG")
                     currentBarang?.let { b ->
                         val index = listCategories.indexOfFirst { it.id == b.categoryId }
@@ -112,22 +109,24 @@ class FormBarangActivity : AppCompatActivity() {
     }
 
     private fun saveBarang() {
-        val sku = binding.etFormSku.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
-        val nama = binding.etFormNama.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
-        val stok = binding.etFormStok.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
-        val satuan = binding.etFormSatuan.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
-        val hargaBeli = binding.etFormHargaBeli.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
-        val hargaJual = binding.etFormHargaJual.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
-        val deskripsi = binding.etFormDeskripsi.text.toString().trim().toRequestBody("text/plain".toMediaTypeOrNull())
+        // Menggunakan cara lama (Static create) agar kompatibel dengan v3 & v4
+        val mediaType = MediaType.parse("text/plain")
+        
+        val sku = RequestBody.create(mediaType, binding.etFormSku.text.toString().trim())
+        val nama = RequestBody.create(mediaType, binding.etFormNama.text.toString().trim())
+        val stok = RequestBody.create(mediaType, binding.etFormStok.text.toString().trim())
+        val satuan = RequestBody.create(mediaType, binding.etFormSatuan.text.toString().trim())
+        val hargaBeli = RequestBody.create(mediaType, binding.etFormHargaBeli.text.toString().trim())
+        val hargaJual = RequestBody.create(mediaType, binding.etFormHargaJual.text.toString().trim())
+        val deskripsi = RequestBody.create(mediaType, binding.etFormDeskripsi.text.toString().trim())
         
         if (listCategories.isEmpty()) return
-        val categoryId = listCategories[binding.spFormCategory.selectedItemPosition].id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+        val categoryId = RequestBody.create(mediaType, listCategories[binding.spFormCategory.selectedItemPosition].id.toString())
 
-        // Handle Foto
         var fotoPart: MultipartBody.Part? = null
         selectedImageUri?.let { uri ->
             val file = uriToFile(uri)
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             fotoPart = MultipartBody.Part.createFormData("foto", file.name, requestFile)
         }
 
@@ -144,19 +143,14 @@ class FormBarangActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ApiResponse<Barang>>, response: Response<ApiResponse<Barang>>) {
                 binding.btnSaveBarang.isEnabled = true
                 binding.btnSaveBarang.text = "SIMPAN BARANG"
-                
                 if (response.isSuccessful) {
                     Toast.makeText(this@FormBarangActivity, "Berhasil disimpan!", Toast.LENGTH_SHORT).show()
                     finish()
-                } else {
-                    Toast.makeText(this@FormBarangActivity, "Gagal menyimpan data", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<ApiResponse<Barang>>, t: Throwable) {
                 binding.btnSaveBarang.isEnabled = true
                 binding.btnSaveBarang.text = "SIMPAN BARANG"
-                Toast.makeText(this@FormBarangActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
