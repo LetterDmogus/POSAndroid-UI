@@ -32,12 +32,35 @@ class ManageBarangActivity : AppCompatActivity() {
 
         setupRecyclerView()
         fetchBarang()
+        setupSearch()
 
         binding.btnBackManageBarang.setOnClickListener { finish() }
         binding.fabAddBarang.setOnClickListener {
             val intent = Intent(this, FormBarangActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun setupSearch() {
+        // Klik tombol cari kaca pembesar
+        binding.btnSearchManageSubmit.setOnClickListener {
+            performSearch()
+        }
+
+        // Tekan Enter di Keyboard
+        binding.etSearchManage.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                performSearch()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun performSearch() {
+        val query = binding.etSearchManage.text.toString().trim()
+        fetchBarang(if (query.isEmpty()) null else query)
     }
 
     private fun setupRecyclerView() {
@@ -53,8 +76,8 @@ class ManageBarangActivity : AppCompatActivity() {
         binding.rvManageBarang.adapter = adapter
     }
 
-    private fun fetchBarang() {
-        RetrofitClient.instance.getBarangs(token).enqueue(object : Callback<ApiResponse<List<Barang>>> {
+    private fun fetchBarang(search: String? = null) {
+        RetrofitClient.instance.getBarangs(token, search).enqueue(object : Callback<ApiResponse<List<Barang>>> {
             override fun onResponse(call: Call<ApiResponse<List<Barang>>>, response: Response<ApiResponse<List<Barang>>>) {
                 if (response.isSuccessful) {
                     val list = response.body()?.data ?: emptyList()

@@ -76,7 +76,7 @@ class ManageCategoryActivity : AppCompatActivity() {
     }
 
     private fun createCategory(name: String) {
-        RetrofitClient.instance.createCategory(token, mapOf("nama_kategori" to name))
+        RetrofitClient.instance.createCategory(token, mapOf("name" to name))
             .enqueue(object : Callback<ApiResponse<Category>> {
                 override fun onResponse(call: Call<ApiResponse<Category>>, response: Response<ApiResponse<Category>>) {
                     if (response.isSuccessful) {
@@ -106,7 +106,7 @@ class ManageCategoryActivity : AppCompatActivity() {
     }
 
     private fun updateCategory(id: Int, name: String) {
-        RetrofitClient.instance.updateCategory(token, id, mapOf("nama_kategori" to name))
+        RetrofitClient.instance.updateCategory(token, id, mapOf("name" to name))
             .enqueue(object : Callback<ApiResponse<Category>> {
                 override fun onResponse(call: Call<ApiResponse<Category>>, response: Response<ApiResponse<Category>>) {
                     if (response.isSuccessful) {

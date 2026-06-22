@@ -3,18 +3,20 @@ package com.example.aplikasikasir.data.model
 import com.google.gson.annotations.SerializedName
 
 data class OrderRequest(
-    @SerializedName("bayar")
+    @SerializedName("paid_amount")
     val bayar: Double,
-    @SerializedName("metode_pembayaran")
+    @SerializedName("payment_method")
     val metodePembayaran: String,
-    @SerializedName("catatan")
+    @SerializedName("notes")
     val catatan: String?,
+    @SerializedName("customer_id")
+    val customerId: Int?,
     @SerializedName("items")
     val items: List<OrderItemRequest>
 )
 
 data class OrderItemRequest(
-    @SerializedName("barang_id")
+    @SerializedName("item_id")
     val barangId: Int,
     @SerializedName("qty")
     val qty: Int
@@ -32,10 +34,10 @@ data class OrderResponse(
 data class OrderData(
     @SerializedName("id")
     val id: Int,
-    @SerializedName("nomor_invoice")
+    @SerializedName("invoice_number")
     val nomorInvoice: String,
-    @SerializedName("total_harga")
+    @SerializedName("total_price")
     val totalHarga: Double,
-    @SerializedName("kembali")
+    @SerializedName("change_amount")
     val kembali: Double
 )

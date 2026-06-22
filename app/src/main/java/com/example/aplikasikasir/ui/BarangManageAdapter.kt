@@ -28,6 +28,22 @@ class BarangManageAdapter(
             tvManageNama.text = barang.namaBarang
             tvManageSku.text = "SKU: ${barang.sku}"
             tvManageStok.text = "Stok: ${barang.stok} ${barang.satuan}"
+            
+            // Format tanggal created_at / updated_at
+            val rawDate = barang.createdAt ?: "-"
+            val formattedDate = if (rawDate.length >= 19) {
+                // Konversi dari format Laravel (2026-06-21T02:32:33.000000Z) ke format ramah (21-06-2026 02:32)
+                try {
+                    val datePart = rawDate.substring(0, 10).split("-")
+                    val timePart = rawDate.substring(11, 16)
+                    "${datePart[2]}-${datePart[1]}-${datePart[0]} $timePart"
+                } catch (e: Exception) {
+                    rawDate.replace("T", " ").substring(0, 16)
+                }
+            } else {
+                rawDate
+            }
+            tvManageDate.text = "Dibuat: $formattedDate"
 
             if (!barang.fotoUrl.isNullOrEmpty()) {
                 Picasso.get().load(barang.fotoUrl).into(ivManageBarang)

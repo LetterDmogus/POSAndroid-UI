@@ -28,17 +28,30 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="2dp"
             android:layout_marginBottom="16dp">
-            <EditText
-                android:id="@+id/etSearch"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                android:hint="Cari nama atau SKU..."
-                android:paddingStart="16dp"
-                android:drawableStart="@android:drawable/ic_menu_search"
-                android:drawablePadding="10dp"
-                android:inputType="text"
-                android:textSize="14sp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Cari nama atau SKU..."
+                    android:paddingStart="16dp"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textSize="14sp"/>
+                <ImageButton
+                    android:id="@+id/btnSearchSubmit"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_menu_search"
+                    android:contentDescription="Cari"/>
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView

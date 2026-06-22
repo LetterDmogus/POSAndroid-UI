@@ -17,10 +17,14 @@ data class DashboardData(
     @SerializedName("sales_trend")
     val salesTrend: List<SalesTrend>,
     @SerializedName("top_products")
-    val topProducts: List<TopProduct>
+    val topProducts: List<TopProduct>,
+    @SerializedName("payment_methods")
+    val paymentMethods: List<PaymentMethodStat>
 )
 
 data class TodaySummary(
+    @SerializedName("today")
+    val today: TodaySummary?, // legacy safety
     @SerializedName("omzet")
     val omzet: Int,
     @SerializedName("transactions")
@@ -35,8 +39,15 @@ data class SalesTrend(
 )
 
 data class TopProduct(
-    @SerializedName("nama_barang_backup")
+    @SerializedName("item_name_backup")
     val namaBarang: String,
     @SerializedName("total_qty")
     val totalQty: Int
+)
+
+data class PaymentMethodStat(
+    @SerializedName("payment_method")
+    val metodePembayaran: String,
+    @SerializedName("count")
+    val count: Int
 )

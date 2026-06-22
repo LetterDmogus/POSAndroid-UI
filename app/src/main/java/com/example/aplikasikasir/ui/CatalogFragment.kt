@@ -65,7 +65,7 @@ class CatalogFragment : Fragment() {
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
         integrator.setPrompt("Scan QR Code Barang")
         integrator.setBeepEnabled(true)
-        integrator.setOrientationLocked(false)
+        integrator.setOrientationLocked(true)
         integrator.initiateScan()
     }
 
@@ -143,13 +143,25 @@ class CatalogFragment : Fragment() {
     }
 
     private fun setupSearch() {
-        binding.etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                fetchCatalog(s.toString())
+        // Klik Tombol Cari
+        binding.btnSearchSubmit.setOnClickListener {
+            performSearch()
+        }
+
+        // Tekan Enter / Tombol Cari di Keyboard HP
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+                performSearch()
+                true
+            } else {
+                false
             }
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        }
+    }
+
+    private fun performSearch() {
+        val query = binding.etSearch.text.toString().trim()
+        fetchCatalog(if (query.isEmpty()) null else query)
     }
 
     override fun onResume() {

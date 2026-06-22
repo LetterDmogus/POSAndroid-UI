@@ -36,6 +36,14 @@ object CartManager {
         items.clear()
     }
 
+    fun getOriginalSubtotal(): Double {
+        return items.sumOf { it.barang.hargaJual * it.qty }
+    }
+
+    fun getTotalDiscount(): Double {
+        return items.sumOf { it.discountAmount }
+    }
+
     fun getTotalPrice(): Double {
         return items.sumOf { it.subtotal }
     }

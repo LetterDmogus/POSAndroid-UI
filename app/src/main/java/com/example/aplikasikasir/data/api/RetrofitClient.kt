@@ -10,34 +10,26 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "http://10.0.2.2/api/"
+    private const val BASE_URL = "https://luiz.rplkodingan.com/posandroid/api/"
 
     /**
-     * Interceptor Pintar: 
-     * Menggunakan fungsi .url() dan .host() agar kompatibel dengan semua versi OkHttp.
+     * Interceptor untuk setup header request.
+     * Mengatur Host hanya saat lokal emulator, dan menambahkan bypass warning ngrok.
      */
     private val hostInterceptor = Interceptor { chain ->
         var request = chain.request()
         val originalUrl = request.url()
 
-        // Cek jika host-nya adalah apipos.test
-        if (originalUrl.host() == "apipos.test") {
-            val newUrl = originalUrl.newBuilder()
-                .host("10.0.2.2")
-                .build()
-            
-            request = request.newBuilder()
-                .url(newUrl)
-                .header("Host", "apipos.test")
-                .build()
-        } else {
-            // Untuk semua request ke API (10.0.2.2), pastikan Host Header terpasang
-            request = request.newBuilder()
-                .header("Host", "apipos.test")
-                .build()
+        val requestBuilder = request.newBuilder()
+            // WAJIB: Bypass halaman warning bawaan ngrok free tier
+            .header("ngrok-skip-browser-warning", "true")
+
+        // Set Host Header hanya jika mengarah ke lokal/emulator test
+        if (originalUrl.host() == "apipos.test" || originalUrl.host() == "10.0.2.2") {
+            requestBuilder.header("Host", "apipos.test")
         }
 
-        chain.proceed(request)
+        chain.proceed(requestBuilder.build())
     }
 
     private val okHttpClient = OkHttpClient.Builder()
@@ -63,7 +55,6 @@ object RetrofitClient {
                 .downloader(OkHttp3Downloader(okHttpClient))
                 .build()
             
-            // Picasso.setSingletonInstance hanya boleh dipanggil satu kali
             Picasso.setSingletonInstance(picasso)
         } catch (e: Exception) {
             // Jika sudah diinisialisasi, abaikan

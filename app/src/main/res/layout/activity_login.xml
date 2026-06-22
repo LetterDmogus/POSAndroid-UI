@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pos_blue_light"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Concierge"
+                android:text="POS Android"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -48,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:letterSpacing="0.1"
-                android:text="PROFESSIONAL POS INTERFACE"
+                android:text="APLIKASI KASIR MOBILE"
                 android:textColor="#CCFFFFFF"
                 android:textSize="10sp"
                 android:textStyle="bold" />
@@ -58,7 +59,7 @@
         <LinearLayout
             android:id="@+id/loginContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_login_card"
             android:orientation="vertical"
             android:padding="32dp"
@@ -94,10 +95,11 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:boxBackgroundMode="none"
+                app:boxBackgroundColor="@android:color/transparent"
                 app:hintEnabled="false"
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
                 app:startIconTint="@color/text_secondary">
@@ -106,10 +108,10 @@
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:background="@drawable/rounded_field"
-                    android:hint="name@establishment.com"
+                    android:background="@android:color/transparent"
+                    android:hint="nama@kasir.com"
                     android:inputType="textEmailAddress"
-                    android:paddingStart="12dp"
+                    android:paddingStart="8dp"
                     android:textColor="@color/text_primary"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -140,10 +142,11 @@
             </RelativeLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:boxBackgroundMode="none"
+                app:boxBackgroundColor="@android:color/transparent"
                 app:hintEnabled="false"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleTint="@color/text_secondary"
@@ -154,10 +157,10 @@
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:background="@drawable/rounded_field"
+                    android:background="@android:color/transparent"
                     android:hint="••••••••"
                     android:inputType="textPassword"
-                    android:paddingStart="12dp"
+                    android:paddingStart="8dp"
                     android:textColor="@color/text_primary"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -175,19 +178,12 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_media_play"
-                app:iconGravity="textEnd"
-                app:iconPadding="10dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                app:cornerRadius="12dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:letterSpacing="0.1"

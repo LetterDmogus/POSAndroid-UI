@@ -13,10 +13,9 @@ import com.example.aplikasikasir.data.api.RetrofitClient
 import com.example.aplikasikasir.data.model.DashboardResponse
 import com.example.aplikasikasir.databinding.FragmentHomeBinding
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,10 +42,19 @@ class HomeFragment : Fragment() {
         val sharedPref = requireActivity().getSharedPreferences("pos_pref", Context.MODE_PRIVATE)
         token = "Bearer ${sharedPref.getString("token", "")}"
         val name = sharedPref.getString("user_name", "User")
-        val role = sharedPref.getString("user_role", "Kasir")
+        val role = sharedPref.getString("user_role", "kasir")
 
         binding.tvWelcome.text = "Selamat Datang, $name!"
         binding.tvRole.text = "Anda login sebagai ${role?.replaceFirstChar { it.uppercase() }}"
+
+        if (role == "admin") {
+            binding.cardHomeOmzet.setOnClickListener {
+                startActivity(android.content.Intent(requireContext(), com.example.aplikasikasir.ReportActivity::class.java))
+            }
+            binding.cardHomeTransactions.setOnClickListener {
+                startActivity(android.content.Intent(requireContext(), com.example.aplikasikasir.ReportActivity::class.java))
+            }
+        }
 
         fetchDashboardData()
     }
@@ -76,6 +84,8 @@ class HomeFragment : Fragment() {
         binding.tvHomeOrders.text = "${data.today.transactions} Transaksi"
 
         setupLineChart(data.salesTrend)
+        setupBarChart(data.topProducts)
+        setupPieChart(data.paymentMethods)
 
         binding.containerLowStock.removeAllViews()
         if (data.lowStock.isEmpty()) {
@@ -129,6 +139,67 @@ class HomeFragment : Fragment() {
         binding.lineChart.description.isEnabled = false
         binding.lineChart.animateX(1000)
         binding.lineChart.invalidate()
+    }
+
+    private fun setupBarChart(products: List<com.example.aplikasikasir.data.model.TopProduct>) {
+        val entries = ArrayList<BarEntry>()
+        products.forEachIndexed { index, item ->
+            entries.add(BarEntry(index.toFloat(), item.totalQty.toFloat()))
+        }
+
+        val dataSet = BarDataSet(entries, "Qty Terjual")
+        dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
+        dataSet.valueTextSize = 10f
+        dataSet.valueTextColor = Color.BLACK
+
+        val barData = BarData(dataSet)
+        binding.barChartTopProducts.data = barData
+
+        val xAxis = binding.barChartTopProducts.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity = 1f
+        xAxis.labelRotationAngle = -45f
+        xAxis.setDrawGridLines(false)
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val index = value.toInt()
+                return if (index >= 0 && index < products.size) {
+                    products[index].namaBarang
+                } else {
+                    ""
+                }
+            }
+        }
+
+        binding.barChartTopProducts.extraBottomOffset = 25f
+        binding.barChartTopProducts.axisLeft.granularity = 1f
+        binding.barChartTopProducts.axisRight.isEnabled = false
+        binding.barChartTopProducts.description.isEnabled = false
+        binding.barChartTopProducts.animateY(1000)
+        binding.barChartTopProducts.invalidate()
+    }
+
+    private fun setupPieChart(methods: List<com.example.aplikasikasir.data.model.PaymentMethodStat>) {
+        val entries = ArrayList<PieEntry>()
+        methods.forEach { item ->
+            entries.add(PieEntry(item.count.toFloat(), item.metodePembayaran))
+        }
+
+        val dataSet = PieDataSet(entries, "")
+        dataSet.colors = listOf(
+            Color.parseColor("#0288D1"),
+            Color.parseColor("#81C784"),
+            Color.parseColor("#FFD54F")
+        )
+        dataSet.valueTextSize = 12f
+        dataSet.valueTextColor = Color.WHITE
+
+        val pieData = PieData(dataSet)
+        binding.pieChartPaymentMethods.data = pieData
+        binding.pieChartPaymentMethods.description.isEnabled = false
+        binding.pieChartPaymentMethods.centerText = "Metode"
+        binding.pieChartPaymentMethods.animateXY(1000, 1000)
+        binding.pieChartPaymentMethods.invalidate()
     }
 
     override fun onDestroyView() {

@@ -45,10 +45,12 @@
             android:padding="16dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardHomeOmzet"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="12dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,10 +63,12 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardHomeTransactions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="12dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -92,6 +96,48 @@
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tren Penjualan (7 Hari)" android:textStyle="bold" android:textColor="@color/text_primary"/>
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Top Products Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Produk Terlaris" android:textStyle="bold" android:textColor="@color/text_primary"/>
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChartTopProducts"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Payment Methods Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Metode Pembayaran Paling Sering" android:textStyle="bold" android:textColor="@color/text_primary"/>
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChartPaymentMethods"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginTop="16dp" />

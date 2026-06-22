@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.aplikasikasir.data.api.RetrofitClient
 import com.example.aplikasikasir.data.model.LoginResponse
 import com.example.aplikasikasir.databinding.ActivityLoginBinding
@@ -19,6 +20,9 @@ class LoginActivity : AppCompatActivity() {
     private val TAG = "DEBUG_LOGIN"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Paksa aplikasi agar selalu menggunakan Light Mode (Abaikan Dark Mode sistem HP)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

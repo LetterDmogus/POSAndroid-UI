@@ -45,16 +45,30 @@ class BarangAdapter(
             val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
             tvHarga.text = formatRupiah.format(barang.hargaJual)
 
-            // Click Detail
+            // Setup Promo/Discount Badge
+            if (barang.discount != null && barang.discount.isActive) {
+                tvPromoBadge.visibility = android.view.View.VISIBLE
+                if (barang.discount.type == "percentage") {
+                    tvPromoBadge.text = "${(barang.discount.value ?: 0.0).toInt()}% OFF"
+                } else if (barang.discount.type == "bogo") {
+                    tvPromoBadge.text = "BUY 1 GET 1"
+                } else {
+                    tvPromoBadge.text = barang.discount.name
+                }
+            } else {
+                tvPromoBadge.visibility = android.view.View.GONE
+            }
+
+            // Click Card (Tambah ke Keranjang)
             root.setOnClickListener {
+                onAddClick(barang)
+            }
+
+            // Click Icon Info (Buka Detail Produk)
+            btnAddQuick.setOnClickListener {
                 val intent = Intent(it.context, DetailBarangActivity::class.java)
                 intent.putExtra("EXTRA_BARANG", barang)
                 it.context.startActivity(intent)
-            }
-
-            // Click Add to Cart
-            btnAddQuick.setOnClickListener {
-                onAddClick(barang)
             }
         }
     }

@@ -2,12 +2,12 @@
     <string name="app_name">AplikasiKasir</string>
     
     <!-- Concierge POS Labels -->
-    <string name="welcome_back">Welcome Back</string>
-    <string name="login_instruction">Please enter your credentials to access the terminal.</string>
-    <string name="work_email">WORK EMAIL</string>
-    <string name="security_key">SECURITY KEY</string>
-    <string name="authorize_access">Authorize Access</string>
-    <string name="reset_pin">RESET PIN</string>
+    <string name="welcome_back">Selamat Datang Kembali</string>
+    <string name="login_instruction">Silakan masukkan email dan kata sandi Anda.</string>
+    <string name="work_email">EMAIL KASIR</string>
+    <string name="security_key">KATA SANDI</string>
+    <string name="authorize_access">Masuk</string>
+    <string name="reset_pin">LUPA PIN?</string>
 
     <!-- Default Navigation Drawer Strings (RESTORED) -->
     <string name="menu_home">Home</string>

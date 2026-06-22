@@ -127,7 +127,7 @@ class FormBarangActivity : AppCompatActivity() {
         selectedImageUri?.let { uri ->
             val file = uriToFile(uri)
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-            fotoPart = MultipartBody.Part.createFormData("foto", file.name, requestFile)
+            fotoPart = MultipartBody.Part.createFormData("image", file.name, requestFile)
         }
 
         binding.btnSaveBarang.isEnabled = false

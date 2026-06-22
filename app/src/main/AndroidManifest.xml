@@ -18,6 +18,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.AplikasiKasir.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,6 +70,40 @@
             android:name=".FormBarangActivity"
             android:exported="false"
             android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".ManageCustomerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".ReportActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".ManageExpenseActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".ManageDiscountActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <activity
+            android:name=".ManageStockEntryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AplikasiKasir.NoActionBar" />
+
+        <!-- Force Barcode Scanner to Portrait Mode -->
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="android:screenOrientation"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
     </application>
 

@@ -36,11 +36,19 @@ data class InvoiceItem(
     val harga: Int,
     @SerializedName("qty")
     val qty: Int,
+    @SerializedName("diskon")
+    val diskon: Int,
     @SerializedName("subtotal")
     val subtotal: Int
 )
 
 data class InvoiceSummary(
+    @SerializedName("subtotal")
+    val subtotal: Int?,
+    @SerializedName("diskon")
+    val diskon: Int?,
+    @SerializedName("pajak")
+    val pajak: Int?,
     @SerializedName("total")
     val total: Int,
     @SerializedName("bayar")

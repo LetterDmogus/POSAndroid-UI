@@ -8,11 +8,11 @@ import kotlinx.parcelize.Parcelize
 data class Category(
     @SerializedName("id")
     val id: Int,
-    @SerializedName("nama_kategori")
+    @SerializedName("name")
     val namaKategori: String,
     @SerializedName("slug")
     val slug: String,
-    @SerializedName("barangs_count")
+    @SerializedName("items_count")
     val barangsCount: Int? = null
 ) : Parcelable
 
@@ -22,28 +22,34 @@ data class Barang(
     val id: Int,
     @SerializedName("sku")
     val sku: String,
-    @SerializedName("nama_barang")
+    @SerializedName("name")
     val namaBarang: String,
-    @SerializedName("deskripsi")
+    @SerializedName("description")
     val deskripsi: String?,
-    @SerializedName("harga_beli")
+    @SerializedName("purchase_price")
     val hargaBeli: Double,
-    @SerializedName("harga_jual")
+    @SerializedName("selling_price")
     val hargaJual: Double,
-    @SerializedName("stok")
+    @SerializedName("stock")
     val stok: Int,
-    @SerializedName("satuan")
+    @SerializedName("unit")
     val satuan: String,
     @SerializedName("category_id")
     val categoryId: Int,
-    @SerializedName("foto")
+    @SerializedName("image")
     val foto: String?,
-    @SerializedName("foto_url")
+    @SerializedName("image_url")
     val fotoUrl: String?,
     @SerializedName("is_active")
     val isActive: Boolean,
+    @SerializedName("created_at")
+    val createdAt: String? = null,
+    @SerializedName("updated_at")
+    val updatedAt: String? = null,
     @SerializedName("category")
-    val category: Category? = null
+    val category: Category? = null,
+    @SerializedName("discount")
+    val discount: Discount? = null
 ) : Parcelable
 
 data class ApiResponse<T>(
